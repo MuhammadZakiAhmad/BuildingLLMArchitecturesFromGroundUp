@@ -1,0 +1,237 @@
+import os
+import torch
+import torch.nn.functional as F
+# Dataset acts as a blueprint that maps out how to access individual items.
+# DataLoader acts as the engine that handles batches, shuffling, and multi-processing workers.
+from torch.utils.data import Dataset, DataLoader
+
+# =====================================================================
+# 1. GLOBAL SEEDS, RUNTIME MANAGEMENT & HARDWARE ALLOCATION
+# =====================================================================
+
+# Setting a hardcoded manual seed guarantees that random weight initializations,
+# data shuffles, and processing splits generate the exact same numbers every run.
+torch.manual_seed(123)
+
+# Device-agnostic routing. This line checks if an NVIDIA graphics card is present with
+# valid CUDA drivers. If true, it allocates operations to GPU ("cuda"), otherwise it falls back to CPU.
+# Note: On modern Apple Silicon Macs (M1/M2/M3+), you can swap "cuda" for "mps" to use the Apple GPU.
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+print(f"--- PyTorch Engine Initialized | Targeted Hardware: {device} ---\n")
+
+
+# =====================================================================
+# 2. DESIGNING THE CUSTOM DATASET AND BATCH PIPELINE
+# =====================================================================
+
+# Raw training records.
+# Feature Tensors: Standardized to float32 because GPUs are structurally optimized for 32-bit math.
+X_train = torch.tensor([
+    [-1.2, 3.1],
+    [-0.9, 2.9],
+    [-0.5, 2.6],
+    [2.3, -1.1],
+    [2.7, -1.5]
+], dtype=torch.float32) # Matrix dimensions: [5 samples, 2 input features]
+
+# Label Tensors: Classification targets MUST be 64-bit integers (int64/LongTensor).
+# Labels must start explicitly at zero and go up to (Total Classes - 1).
+y_train = torch.tensor([0, 0, 0, 1, 1], dtype=torch.int64)
+
+# Raw evaluation/test records.
+X_test = torch.tensor([
+    [-0.8, 2.8],
+    [2.6, -1.6],
+], dtype=torch.float32)
+y_test = torch.tensor([0, 1], dtype=torch.int64)
+
+
+# Creating a custom structural wrapper by inheriting from PyTorch's base 'Dataset' class.
+# This requires overriding three foundational methods: __init__, __getitem__, and __len__.
+class ToyDataset(Dataset):
+    def __init__(self, X, y):
+        # Store your raw arrays or tensor references directly inside the instance attributes.
+        self.features = X
+        self.labels = y
+        
+    def __getitem__(self, index):       
+        # Core data fetching loop: defines how PyTorch extracts a single record at a given index position.
+        # It must return a tuple containing (the independent features, the target label).
+        one_x = self.features[index]    
+        one_y = self.labels[index]      
+        return one_x, one_y             
+        
+    def __len__(self):
+        # Returns total row dimension size so data loaders can calculate exact step counts per epoch.
+        return self.labels.shape[0]     
+
+# Wrap our tensor objects into clean Dataset instances.
+train_ds = ToyDataset(X_train, y_train)
+test_ds = ToyDataset(X_test, y_test)
+
+
+# Constructing the DataLoaders. These feed our models data slices dynamically.
+train_loader = DataLoader(
+    dataset=train_ds,      # The target source dataset instance.
+    batch_size=2,          # Number of samples processed simultaneously per backprop pass.
+    shuffle=True,          # Scrambles indices every epoch to keep the network from memorizing positional order.
+    num_workers=0,         # Multi-process parallel data fetching. 0 means main process does all the work.
+    drop_last=True         # 5 samples / batch size 2 = 2 complete batches and 1 leftover. True drops the un-even leftover.
+)
+
+test_loader = DataLoader(
+    dataset=test_ds,
+    batch_size=2,
+    shuffle=False,         # Shuffling validation or testing sets is mathematically unnecessary and wasteful.
+    num_workers=0
+)
+
+
+# =====================================================================
+# 3. CONSTRUCTING THE NEURAL NETWORK METRIC DESIGN
+# =====================================================================
+
+# Subclassing torch.nn.Module registers this class with PyTorch's state backend tracking.
+class NeuralNetwork(torch.nn.Module):
+    def __init__(self, num_inputs, num_outputs):   
+        super().__init__() # Initializes underlying tracking architecture for layer parameters.
+        
+        # nn.Sequential stacks structural layers linearly. Data flows through them in exact array order.
+        self.layers = torch.nn.Sequential(
+            # Layer 1: Input dimensions (2 features) are mapped to a 30-node hidden layer.
+            # nn.Linear automatically instantiates a weight matrix and a bias vector.
+            torch.nn.Linear(num_inputs, 30),   
+            torch.nn.ReLU(), # Activation layer breaks linearity, allowing the network to solve non-linear patterns.
+            
+            # Layer 2: Maps hidden layer 1 (30 nodes) to hidden layer 2 (20 nodes).
+            # The input dimension of this layer MUST match the output dimension of the previous layer.
+            torch.nn.Linear(30, 20),   
+            torch.nn.ReLU(),
+            
+            # Layer 3 (Output Layer): Reduces hidden 20-node space to match our target classes (2).
+            # Returns raw, unnormalized outputs called "logits". No Softmax function is added here.
+            torch.nn.Linear(20, num_outputs),
+        )
+        
+    def forward(self, x):
+        # Explicit forward pass execution rule. This defines the computational graph logic.
+        # DO NOT call model.forward(x) directly in code; calling 'model(x)' triggers this safely.
+        logits = self.layers(x)
+        return logits          
+
+# Instantiate the blueprint model.
+model = NeuralNetwork(num_inputs=2, num_outputs=2)   
+
+# CRITICAL STEP: The architecture weights are instantiated on the CPU by default.
+# .to(device) recursively shifts all internal parameters (weight matrices, bias vectors) to the GPU if present.
+model = model.to(device)
+
+
+# =====================================================================
+# 4. IMPLEMENTING EVALUATION ACCURACY CALCULATORS
+# =====================================================================
+
+def compute_accuracy(model, dataloader, device):
+    # Set model to explicit evaluation mode. This temporarily locks/deactivates runtime behaviors 
+    # specific only to active training loops (like Dropout random node masking or Batch Normalization tracking).
+    model = model.eval()
+    
+    correct = 0.0
+    total_examples = 0
+    
+    # Context manager that turns off PyTorch's automatic differentiation tracking history engine.
+    # Disabling graph allocation cuts computational overhead and memory footprint dramatically during predictions.
+    with torch.no_grad():
+        for features, labels in dataloader:
+            # Shift features and labels to match the hardware device where the model's weights currently sit.
+            features, labels = features.to(device), labels.to(device)
+            
+            # Forward pass: extract output logits
+            logits = model(features)
+            
+            # argmax(dim=1) sweeps row-wise across columns to find the index of the highest raw score.
+            # This index matches our hardcoded integer class assignments.
+            predictions = torch.argmax(logits, dim=1)
+            
+            # Element-wise boolean equivalence evaluation check.
+            compare = (labels == predictions)      
+            correct += torch.sum(compare)     
+            total_examples += len(compare)
+        
+    # Accumulate metrics, then execute native type translation.
+    # .item() extracts a lone scalar value locked inside a 1D tensor and strips it out into a standard Python float.
+    return (correct / total_examples).item()
+
+
+# =====================================================================
+# 5. THE CORE BACKPROPAGATION TRAINING ENGINE LOOP
+# =====================================================================
+
+# Initialize optimization algorithm. Pass the model parameters to it explicitly so it knows what to update.
+# Learning Rate (lr=0.5): The step scaling size variable used during gradient adjustments.
+optimizer = torch.optim.SGD(model.parameters(), lr=0.5)           
+num_epochs = 3 # Total number of complete generational cycles run through the complete dataset.
+
+print("--- Commencing Model Parameter Tuning ---")
+for epoch in range(num_epochs): 
+    # Put the system into explicit operational training mode before executing loop loops.
+    model.train()
+    
+    for batch_idx, (features, labels) in enumerate(train_loader):
+        # Step 1: Push input mini-batches onto target execution chip memory (CPU/GPU).
+        features, labels = features.to(device), labels.to(device)  
+        
+        # Step 2: Run forward pass to map current features against current network weights.
+        logits = model(features)
+        
+        # Step 3: Compute mathematical loss error value.
+        # F.cross_entropy expects RAW, un-activated logits. It handles log-softmax calculations
+        # internally via a highly optimized single-step formula for extreme numerical stability.
+        loss = F.cross_entropy(logits, labels)
+        
+        # Step 4: Reset structural gradient tracking states back to zero.
+        # MANDATORY STEP: PyTorch design accumulates gradients on backward passes. If you don't zero
+        # them out before every individual step, old batch history will add up and cause gradient explosions.
+        optimizer.zero_grad()           
+        
+        # Step 5: Execute backward mathematical propagation.
+        # Traces all execution node steps backwards from the loss node, computing partial derivatives for parameters.
+        loss.backward()        
+        
+        # Step 6: Trigger optimizer adjustments.
+        # Modifies weight matrices: weight = weight - (learning_rate * gradient_value).
+        optimizer.step()       
+    
+        # Step-by-step performance telemetry log
+        print(f"Epoch: {epoch+1:03d}/{num_epochs:03d}"
+              f" | Batch Index: {batch_idx:03d}/{len(train_loader):03d}"
+              f" | Loss Metric: {loss:.2f}")
+
+
+# =====================================================================
+# 6. SERIALIZATION, SAVING METRICS & DE-SERIALIZATION WORKFLOWS
+# =====================================================================
+
+print("\n--- Final Operational Summary Metrics ---")
+train_acc = compute_accuracy(model, train_loader, device)
+test_acc = compute_accuracy(model, test_loader, device)
+print(f"Training Batch Verification Accuracy: {train_acc * 100:.1f}%")
+print(f"Test/Validation Accuracy: {test_acc * 100:.1f}%")
+
+# Step A: Export weight states to disk.
+# model.state_dict() returns a standard Python Ordered Dictionary mapping named layer strings to parameter weights.
+# We explicitly save just the weights, which keeps files small and separates the weights from code dependencies.
+torch.save(model.state_dict(), "model.pth")
+print("\n[Disk IO] Weights exported cleanly as a binary payload ('model.pth').")
+
+# Step B: Reimport model weights from cold storage file records.
+# 1. Instantiate an empty layout frame that matches the target model configuration dimensions exactly.
+reloaded_model = NeuralNetwork(num_inputs=2, num_outputs=2)
+
+# 2. Extract state dictionary payload from memory storage and bind it into the structural framework.
+# map_location=device helps avoid errors if you saved weights on a GPU but are loading them on a CPU.
+reloaded_model.load_state_dict(torch.load("model.pth", map_location=device))
+
+# 3. Push the model onto the working processing chip target device.
+reloaded_model = reloaded_model.to(device)
+print("[Disk IO] Weights successfully mapped into fresh structural framework instance. Model fully armed.")
