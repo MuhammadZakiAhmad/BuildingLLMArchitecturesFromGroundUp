@@ -1,0 +1,72 @@
+[
+  {
+    "id": 11,
+    "task": "tracking_shuffled_objects",
+    "teacher_prompt": "Task: Track which person owns each object after the swaps.\n\nExample 1\nAlice has the red ball.\nBob has the blue ball.\nThey swap objects.\nAnswer: Alice has the blue ball. Bob has the red ball.\n\nExample 2\nJohn has the green key.\nEmma has the yellow key.\nThey swap objects.\nAnswer: John has the yellow key. Emma has the green key.\n\nExample 3\nTom has the black hat.\nLucy has the white hat.\nThey swap objects.\nAnswer: Tom has the white hat. Lucy has the black hat.\n\nExample 4\nMike has the silver coin.\nSarah has the gold coin.\nThey swap objects.\nAnswer: Mike has the gold coin. Sarah has the silver coin.\n\nQuestion\nDavid has the red book.\nAnna has the blue book.\nThey swap objects.\nWho has the red book?\n\nAnswer:",
+    "student_prompt": "Task: Track which person owns each object after the swaps.\n\nQuestion\nDavid has the red book.\nAnna has the blue book.\nThey swap objects.\nWho has the red book?\n\nAnswer:",
+    "answer": "Anna"
+  },
+  {
+    "id": 12,
+    "task": "logical_deduction",
+    "teacher_prompt": "Task: Answer Yes or No.\n\nExample 1\nAll birds can fly.\nTweety is a bird.\nAnswer: Yes\n\nExample 2\nAll fish swim.\nNemo is a fish.\nAnswer: Yes\n\nExample 3\nAll cars have wheels.\nA sedan is a car.\nAnswer: Yes\n\nExample 4\nAll apples are fruits.\nGranny Smith is an apple.\nAnswer: Yes\n\nQuestion\nAll mammals are warm-blooded.\nA whale is a mammal.\nIs a whale warm-blooded?\n\nAnswer:",
+    "student_prompt": "Task: Answer Yes or No.\n\nQuestion\nAll mammals are warm-blooded.\nA whale is a mammal.\nIs a whale warm-blooded?\n\nAnswer:",
+    "answer": "Yes"
+  },
+  {
+    "id": 13,
+    "task": "navigation",
+    "teacher_prompt": "Task: Determine the final direction.\n\nExample 1\nStart facing North.\nTurn right.\nAnswer: East\n\nExample 2\nStart facing East.\nTurn left.\nAnswer: North\n\nExample 3\nStart facing South.\nTurn right.\nAnswer: West\n\nExample 4\nStart facing West.\nTurn left.\nAnswer: South\n\nQuestion\nStart facing North.\nTurn left.\n\nAnswer:",
+    "student_prompt": "Task: Determine the final direction.\n\nQuestion\nStart facing North.\nTurn left.\n\nAnswer:",
+    "answer": "West"
+  },
+  {
+    "id": 14,
+    "task": "tracking_shuffled_objects",
+    "teacher_prompt": "Task: Track the owner after swaps.\n\nExample 1\nAmy has the green pen.\nBen has the blue pen.\nThey swap.\nAnswer: Amy has the blue pen. Ben has the green pen.\n\nExample 2\nCarl has the black wallet.\nDana has the brown wallet.\nThey swap.\nAnswer: Carl has the brown wallet. Dana has the black wallet.\n\nExample 3\nEric has the gold watch.\nFiona has the silver watch.\nThey swap.\nAnswer: Eric has the silver watch. Fiona has the gold watch.\n\nExample 4\nGeorge has the white phone.\nHelen has the black phone.\nThey swap.\nAnswer: George has the black phone. Helen has the white phone.\n\nQuestion\nJack has the orange notebook.\nKate has the purple notebook.\nThey swap.\nWho has the purple notebook?\n\nAnswer:",
+    "student_prompt": "Task: Track the owner after swaps.\n\nQuestion\nJack has the orange notebook.\nKate has the purple notebook.\nThey swap.\nWho has the purple notebook?\n\nAnswer:",
+    "answer": "Jack"
+  },
+  {
+    "id": 15,
+    "task": "logical_deduction",
+    "teacher_prompt": "Task: Answer Yes or No.\n\nExample 1\nEvery square has four sides.\nA window is a square.\nAnswer: Yes\n\nExample 2\nEvery rose is a flower.\nThis plant is a rose.\nAnswer: Yes\n\nExample 3\nEvery triangle has three sides.\nThis sign is a triangle.\nAnswer: Yes\n\nExample 4\nEvery banana is yellow.\nThis fruit is a banana.\nAnswer: Yes\n\nQuestion\nEvery laptop uses electricity.\nThis computer is a laptop.\nDoes this computer use electricity?\n\nAnswer:",
+    "student_prompt": "Task: Answer Yes or No.\n\nQuestion\nEvery laptop uses electricity.\nThis computer is a laptop.\nDoes this computer use electricity?\n\nAnswer:",
+    "answer": "Yes"
+  },
+  {
+    "id": 16,
+    "task": "navigation",
+    "teacher_prompt": "Task: Determine the final direction.\n\nExample 1\nStart facing South.\nTurn left.\nAnswer: East\n\nExample 2\nStart facing West.\nTurn right.\nAnswer: North\n\nExample 3\nStart facing North.\nTurn right.\nAnswer: East\n\nExample 4\nStart facing East.\nTurn right.\nAnswer: South\n\nQuestion\nStart facing South.\nTurn right.\n\nAnswer:",
+    "student_prompt": "Task: Determine the final direction.\n\nQuestion\nStart facing South.\nTurn right.\n\nAnswer:",
+    "answer": "West"
+  },
+  {
+    "id": 17,
+    "task": "tracking_shuffled_objects",
+    "teacher_prompt": "Task: Track object ownership.\n\nExample 1\nOliver has the apple.\nNoah has the banana.\nThey swap.\nAnswer: Oliver has the banana. Noah has the apple.\n\nExample 2\nEmma has the laptop.\nSophia has the tablet.\nThey swap.\nAnswer: Emma has the tablet. Sophia has the laptop.\n\nExample 3\nRyan has the camera.\nLucas has the phone.\nThey swap.\nAnswer: Ryan has the phone. Lucas has the camera.\n\nExample 4\nJames has the pencil.\nHenry has the ruler.\nThey swap.\nAnswer: James has the ruler. Henry has the pencil.\n\nQuestion\nLiam has the guitar.\nMason has the piano.\nThey swap.\nWho has the guitar?\n\nAnswer:",
+    "student_prompt": "Task: Track object ownership.\n\nQuestion\nLiam has the guitar.\nMason has the piano.\nThey swap.\nWho has the guitar?\n\nAnswer:",
+    "answer": "Mason"
+  },
+  {
+    "id": 18,
+    "task": "logical_deduction",
+    "teacher_prompt": "Task: Answer Yes or No.\n\nExample 1\nEvery doctor studied medicine.\nAlice is a doctor.\nAnswer: Yes\n\nExample 2\nEvery teacher works at a school.\nBob is a teacher.\nAnswer: Yes\n\nExample 3\nEvery pilot flies airplanes.\nJohn is a pilot.\nAnswer: Yes\n\nExample 4\nEvery chef cooks food.\nMary is a chef.\nAnswer: Yes\n\nQuestion\nEvery programmer writes code.\nDavid is a programmer.\nDoes David write code?\n\nAnswer:",
+    "student_prompt": "Task: Answer Yes or No.\n\nQuestion\nEvery programmer writes code.\nDavid is a programmer.\nDoes David write code?\n\nAnswer:",
+    "answer": "Yes"
+  },
+  {
+    "id": 19,
+    "task": "navigation",
+    "teacher_prompt": "Task: Determine the final direction.\n\nExample 1\nStart facing East.\nTurn around.\nAnswer: West\n\nExample 2\nStart facing North.\nTurn around.\nAnswer: South\n\nExample 3\nStart facing South.\nTurn around.\nAnswer: North\n\nExample 4\nStart facing West.\nTurn around.\nAnswer: East\n\nQuestion\nStart facing East.\nTurn around.\nTurn left.\n\nAnswer:",
+    "student_prompt": "Task: Determine the final direction.\n\nQuestion\nStart facing East.\nTurn around.\nTurn left.\n\nAnswer:",
+    "answer": "South"
+  },
+  {
+    "id": 20,
+    "task": "logical_deduction",
+    "teacher_prompt": "Task: Answer Yes or No.\n\nExample 1\nAll oranges are fruits.\nThis is an orange.\nAnswer: Yes\n\nExample 2\nAll wolves are animals.\nThis is a wolf.\nAnswer: Yes\n\nExample 3\nAll rivers contain water.\nThe Nile is a river.\nAnswer: Yes\n\nExample 4\nAll bicycles have wheels.\nThis is a bicycle.\nAnswer: Yes\n\nQuestion\nAll spiders have eight legs.\nThis is a spider.\nDoes it have eight legs?\n\nAnswer:",
+    "student_prompt": "Task: Answer Yes or No.\n\nQuestion\nAll spiders have eight legs.\nThis is a spider.\nDoes it have eight legs?\n\nAnswer:",
+    "answer": "Yes"
+  }
+]

@@ -1,0 +1,4 @@
+*.pt
+teacher_hidden_states*
+adapter_epoch*
+phase22_adapter_checkpoint*
