@@ -2,17 +2,19 @@
 
 ## 0. The Core Hypothesis: Attention Calibration Distillation
 
-Large Language Models (LLMs) often perform significantly better when provided with few-shot demonstrations or Chain-of-Thought (CoT) reasoning. However, these demonstrations drastically increase context length, making inference slower and more expensive. Our core objective was to build a "Student" model capable of imitating the complex reasoning behavior of a 3-shot "Teacher," **without** actually receiving the demonstrations at inference time.
+The ultimate goal of this research is to improve the reasoning capabilities of small models by distilling reasoning patterns from larger models. Large Language Models (LLMs) often perform significantly better when provided with few-shot demonstrations or Chain-of-Thought (CoT) reasoning. However, these demonstrations drastically increase context length, making inference slower and more expensive. 
 
-Instead of retraining the model's underlying weights, we hypothesized that we could modify **where the transformer attends**. 
+To solve this, we took profound inspiration from the original **Hyper-ICL (Hyperbolic In-Context Learning)** framework. While the original Hyper-ICL paper applied this architecture to multimodal tasks, we built a specialized version of it specifically to test and improve **text-based reasoning tasks**.
 
-A transformer computes attention scores using $S = \frac{QK^T}{\sqrt{d}}$. Instead of using only $S$, we proposed computing an Attention Calibration correction: $S' = S + g\Delta$, where:
+The core premise of Hyper-ICL is that instead of retraining the model's underlying weights, we modify **where the transformer attends**. 
+
+A transformer computes attention scores using $S = \frac{QK^T}{\sqrt{d}}$. Instead of using only $S$, the Hyper-ICL architecture computes an Attention Calibration correction: $S' = S + g\Delta$, where:
 - $\Delta = AB^T$ is a low-rank, dynamically generated, learnable attention correction based on compressed Query ($A = QU_q$) and Key ($B = KU_k$) representations.
 - $g = \sigma(\text{MLP}(Q))$ is a Query-Adaptive Gate that controls how strongly the attention correction should be applied for any given input.
 
-By distilling the internal Hidden States of a Teacher (who receives full CoT demonstrations) into the Student (who receives zero demonstrations), the parameters $U_q$, $U_k$, and the Gate gradually learn how to dynamically shift the Student's attention mechanisms so that its internal logic mathematically mimics the Teacher's. 
+By distilling the internal Hidden States of a large Teacher (who receives full CoT demonstrations) into a small Student (who receives zero demonstrations), the parameters $U_q$, $U_k$, and the Gate gradually learn how to dynamically shift the Student's attention mechanisms so that its internal logic mathematically mimics the Teacher's reasoning. 
 
-This report traces our effort to engineer, scale, and scientifically validate this exact mathematical framework.
+This report traces our effort to engineer, scale, and scientifically validate this adapted text-reasoning framework.
 
 ## 1. Introduction and Early Architecture
 This project began with the ambitious goal of building a Large Language Model (LLM) from scratch to tackle complex natural language tasks. In the initial phases, the architecture relied heavily on GPT-2, with early experiments focused on fine-tuning the model for IMDB sentiment analysis. However, it quickly became apparent that sentiment analysis was an overly trivial task that failed to adequately test the limits of modern neural architectures. Sentiment classification does not require multi-step deductive reasoning, logical tracking, or spatial awareness. 
