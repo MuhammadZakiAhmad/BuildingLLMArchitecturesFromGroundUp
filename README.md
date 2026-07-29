@@ -11,14 +11,20 @@ This directory contains the codebase and empirical findings for my current, acti
 
 ### Core Architectures & Implementations
 Ground-up implementations of established LLM architectures to empirically analyze their structural and functional paradigms:
-- **`GPT_2_from_scratch_Sebastiane_Build_an_llm_from_scratch/`**: Implementation of the GPT-2 architecture, building upon Sebastian Raschka's foundational literature.
-- **`gemma_from_scratch_in_python/`**: A native Python implementation of the Gemma model architecture.
-- **`qwen_3_from_scratch_in_pytorch/`**: PyTorch-based construction of the Qwen 3 model architecture.
+- **`LLM_GPT_2_from_scratch_Sebastiane_Build_an_llm_from_scratch/`**: Implementation of the GPT-2 architecture, building upon Sebastian Raschka's foundational literature.
+- **`LLM_gemma_from_scratch_in_python/`**: A native Python implementation of the Gemma model architecture.
+- **`LLM_qwen_3_from_scratch_in_pytorch/`**: PyTorch-based construction of the Qwen 3 model architecture.
 
 ### Core Mechanisms & Primitives
 Isolated implementations of critical transformer sub-components to facilitate deeper mechanistic interpretability and study:
-- **[`SELF_ATTENTION_FROM_SCRATCH.PY`](SELF_ATTENTION_FROM_SCRATCH.PY)**: A foundational implementation of the scaled dot-product Self-Attention mechanism.
-- **[`ROPE.PY`](ROPE.PY)**: Implementation of Rotary Positional Embeddings (RoPE), a standard methodology for positional encoding in modern architectures such as LLaMA, Gemma, and Qwen.
+- **`LLM_practice_codes/SELF_ATTENTION_FROM_SCRATCH.PY`**: A foundational implementation of the scaled dot-product Self-Attention mechanism.
+- **`LLM_practice_codes/ROPE.PY`**: Implementation of Rotary Positional Embeddings (RoPE), a standard methodology for positional encoding in modern architectures such as LLaMA, Gemma, and Qwen.
+- **`LLM_practice_codes/ROPE_MLA.ipynb`**: Jupyter notebook exploring RoPE with Multi-Latent Attention (MLA) variations.
+
+### Vision-Language Models (VLMs)
+Explorations into multimodal architectures combining vision and language:
+- **`VLM_clip_style_nanovlm/`**: Implementation of a CLIP-style Vision-Language Model.
+- **`VLM_paligema_from_scratch/`**: Implementation of a PaLiGEM-style Vision-Language Model from scratch.
 
 ## Technical Environment
 - **Python**
