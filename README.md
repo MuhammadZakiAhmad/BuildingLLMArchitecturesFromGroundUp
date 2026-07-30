@@ -4,27 +4,27 @@ This repository documents the foundational research and implementation efforts i
 
 ## Ongoing Research
 
-### Attention Calibration for Demonstration-Free Text Reasoning in zeroshot small models via distillation from fewshot teacher model and LoRA
+### 1. Attention Calibration for Demonstration-Free Text Reasoning in zeroshot small models via distillation from fewshot teacher model and LoRA
 This directory contains the codebase and empirical findings for my current, active research investigating attention calibration distillation methodologies. The work aims to enhance the inherent text reasoning capabilities of language models in a zero-shot, demonstration-free context.
 
-### Thought Transfer among multiagents via shared vector space
+### 2. Thought Transfer among multiagents via shared vector space
 Human languages are inefficent for LLM agents to communicate among eachother, this budding project will focus on vector level thought transfer among llm agents for better communication with explanability and security as top priority.
 
 ## Repository Structure
 
-### Core Architectures & Implementations
+### 1. Core Architectures & Implementations
 Ground-up implementations of established LLM architectures to empirically analyze their structural and functional paradigms:
 - **`LLM_GPT_2_from_scratch_Sebastiane_Build_an_llm_from_scratch/`**: Implementation of the GPT-2 architecture, building upon Sebastian Raschka's foundational literature.
 - **`LLM_gemma_from_scratch_in_python/`**: A native Python implementation of the Gemma model architecture.
 - **`LLM_qwen_3_from_scratch_in_pytorch/`**: PyTorch-based construction of the Qwen 3 model architecture.
 
-### Core Mechanisms & Primitives
+### 2. Core Mechanisms & Primitives
 Isolated implementations of critical transformer sub-components to facilitate deeper mechanistic interpretability and study:
 - **`LLM_practice_codes/SELF_ATTENTION_FROM_SCRATCH.PY`**: A foundational implementation of the scaled dot-product Self-Attention mechanism.
 - **`LLM_practice_codes/ROPE.PY`**: Implementation of Rotary Positional Embeddings (RoPE), a standard methodology for positional encoding in modern architectures such as LLaMA, Gemma, and Qwen.
 - **`LLM_practice_codes/ROPE_MLA.ipynb`**: Jupyter notebook exploring RoPE with Multi-Latent Attention (MLA) variations.
 
-### Vision-Language Models (VLMs)
+### 3. Vision-Language Models (VLMs)
 Explorations into multimodal architectures combining vision and language:
 - **`VLM_clip_style_nanovlm/`**: Implementation of a CLIP-style Vision-Language Model.
 - **`VLM_paligema_from_scratch/`**: Implementation of a PaLiGEM-style Vision-Language Model from scratch.
