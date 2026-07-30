@@ -1,11 +1,14 @@
-# Build an LLM (from Scratch)
+# AI Research and Development
 
-This repository documents the foundational research and implementation efforts in understanding and constructing Large Language Models (LLMs) from fundamental principles. The primary objective is to bypass high-level abstractions in favor of rigorous, mathematically grounded implementations of state-of-the-art transformer architectures.
+This repository documents the foundational research and implementation efforts in understanding and constructing Large Language Models, Vision Language Models, Vision Action Language Models and World Models from fundamental principles. The primary objective is to bypass high-level abstractions in favor of rigorous, mathematically grounded implementations of state-of-the-art transformer architectures. The repository also contains the code for my own personal AI Research and Development as well as some initial code of R&D projects we carried out at NAMETA LABS.
 
 ## Ongoing Research
 
-### Attention Calibration Distillation for Demonstration-Free Text Reasoning
+### Attention Calibration for Demonstration-Free Text Reasoning in zeroshot small models via distillation from fewshot teacher model and LoRA
 This directory contains the codebase and empirical findings for my current, active research investigating attention calibration distillation methodologies. The work aims to enhance the inherent text reasoning capabilities of language models in a zero-shot, demonstration-free context.
+
+### Thought Transfer among multiagents via shared vector space
+Human languages are inefficent for LLM agents to communicate among eachother, this budding project will focus on vector level thought transfer among llm agents for better communication with explanability and security as top priority.
 
 ## Repository Structure
 
