@@ -44,9 +44,9 @@ Human language is inefficient for LLM-to-LLM communication. This project explore
 Object detection, multi-object tracking, team assignment via K-Means clustering, and real-time ball possession analysis on match video. Uses YOLOv8 for detection and ByteTrack for tracking.
 `YOLOv8 · ByteTrack · K-Means · OpenCV · Supervision · Pandas`
 
-### 2. Chest Cancer Classification (MLflow + DVC) · [repo](https://github.com/MuhammadZakiAhmad/EndToEndChestCancerClassificationUsingMlflowAndDVC)
-End-to-end ML pipeline for chest cancer classification from images, with a user-facing upload interface. Covers the full production lifecycle: experiment tracking, data versioning, and cloud deployment.
-`TensorFlow · Keras · MLflow · DVC · DagsHub · AWS · GitHub Actions`
+### 7. Virtual Try-On (Digital Mannequin) · [repo](https://github.com/MuhammadZakiAhmad/DigitalMannequinForOnlineShops)
+Generates a 3D digital model from user-uploaded photos for virtual clothing try-on, with motion visualization and a customizable catalog. Targets reduction of return rates in e-commerce.
+`PyTorch3D · PyTorch · Unity · C#`
 
 ### 3. AI Physiotherapy Trainer · [repo](https://github.com/MuhammadZakiAhmad/AITrainer-CV-Application-)
 Real-time pose estimation for patient exercise monitoring. Detects and tracks human poses to count repetitions and provide live feedback during physiotherapy sessions.
@@ -64,9 +64,9 @@ Detects vehicles, localizes license plates, reads plate numbers via OCR, and log
 Image classifier trained from scratch on FER-2013 (48×48 grayscale faces) to recognize 7 emotions: Angry, Disgust, Fear, Happy, Sad, Surprise, Neutral.
 `TensorFlow · Keras · NumPy · Pandas · Matplotlib`
 
-### 7. Virtual Try-On (Digital Mannequin) · [repo](https://github.com/MuhammadZakiAhmad/DigitalMannequinForOnlineShops)
-Generates a 3D digital model from user-uploaded photos for virtual clothing try-on, with motion visualization and a customizable catalog. Targets reduction of return rates in e-commerce.
-`PyTorch3D · PyTorch · Unity · C#`
+### 7. Chest Cancer Classification (MLflow + DVC) · [repo](https://github.com/MuhammadZakiAhmad/EndToEndChestCancerClassificationUsingMlflowAndDVC)
+End-to-end ML pipeline for chest cancer classification from images, with a user-facing upload interface. Covers the full production lifecycle: experiment tracking, data versioning, and cloud deployment.
+`TensorFlow · Keras · MLflow · DVC · DagsHub · AWS · GitHub Actions`
 
 ---
 
