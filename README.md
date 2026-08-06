@@ -8,9 +8,10 @@ My Personal and collaborative R&D repository focused on rigorous, mathematically
 
 **1. Attention Calibration for Zero-Shot Reasoning via Distillation + LoRA**
 Investigating attention calibration distillation to enhance text reasoning in small language models under zero-shot, demonstration-free conditions, using a few-shot teacher model and LoRA fine-tuning.
-
+Link: https://github.com/MuhammadZakiAhmad/personal_ai_rnd/tree/main/RESEARCH_Attention_Calibration_Distillation_for_Demonstration-Free_Text_Reasoning
 **2. Thought Transfer Among Multi-Agents via Shared Vector Space**
 Human language is inefficient for LLM-to-LLM communication. This project explores vector-level thought transfer between agents with explainability and security as core constraints.
+Link: https://github.com/MuhammadZakiAhmad/thought_transfer_among_multiagent_systems
 
 ---
 
