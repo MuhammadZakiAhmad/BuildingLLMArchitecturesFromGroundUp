@@ -1,5 +1,7 @@
 # Attention Calibration Distillation for Demonstration-Free Text Reasoning: A Research Journey
 
+### (The Project has been paused and will be continued as more compute becomes available)
+
 ## 0. The Core Hypothesis: Attention Calibration Distillation
 
 The ultimate goal of this research is to improve the reasoning capabilities of small models by distilling reasoning patterns from larger models. Large Language Models (LLMs) often perform significantly better when provided with few-shot demonstrations or Chain-of-Thought (CoT) reasoning. However, these demonstrations drastically increase context length, making inference slower and more expensive. 
